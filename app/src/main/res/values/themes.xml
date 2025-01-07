@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.GradeAndDetails" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPrimary">@color/blueLight</item>
+        <item name="colorPrimaryVariant">@color/blueVariantLight</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/greenLight</item>
+        <item name="colorOnSecondary">@color/white</item>
+    </style>
+
+    <style name="Theme.GradeAndDetails" parent="Base.Theme.GradeAndDetails" />
+</resources>

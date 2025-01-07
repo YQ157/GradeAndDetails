@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="HintTextBold" parent="ThemeOverlay.Material3.TextInputEditText">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextSize">
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>
