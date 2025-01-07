@@ -24,7 +24,7 @@
         android:layout_marginEnd="50dp"
         android:hint="学号"
         app:hintTextAppearance="@style/HintTextBold"
-        android:background="#80FFFFFF"
+        android:background="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@id/logo"
         android:layout_marginTop="40dp"
         app:errorEnabled="true">
@@ -32,7 +32,7 @@
             android:id="@+id/stu_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#80FFFFFF"
+            android:background="@android:color/transparent"
             android:inputType="text"
             android:textSize="17sp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -45,7 +45,7 @@
         android:layout_marginEnd="50dp"
         android:hint="密码"
         app:hintTextAppearance="@style/HintTextBold"
-        android:background="#80FFFFFF"
+        android:background="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@id/id"
         android:layout_marginTop="20dp">
         <com.google.android.material.textfield.TextInputEditText
@@ -53,13 +53,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:background="#80FFFFFF"
+            android:background="@android:color/transparent"
             android:textSize="17sp" />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.button.MaterialButton
         android:id="@+id/login"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         app:icon="@drawable/arrow_forward_24"
         app:cornerRadius="10dp"
         app:iconPadding="0dp"
@@ -83,8 +83,8 @@
         app:layout_constraintEnd_toEndOf="parent"/>
     <WebView
         android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/circular"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

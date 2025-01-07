@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 浅色主题 -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blueLight">#4C9ED9</color>       <!-- 浅蓝色 -->
     <color name="blueVariantLight">#1E76A5</color> <!-- 蓝色变体 -->
     <!-- 定义绿色系列 -->
     <color name="greenLight">#A8D5BA</color>      <!-- 浅绿色 -->
+
+    <!-- 夜间模式配色 -->
+    <color name="blueDark">#0D47A1</color>
+    <color name="blueVariantDark">#0C3C80</color>
+    <color name="greenDark">#2C6B2F</color>
+    <color name="surfaceDark">#1C1C1C</color>
+    <color name="redDark">#D32F2F</color>
 </resources>

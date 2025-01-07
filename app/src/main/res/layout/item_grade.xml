@@ -10,7 +10,9 @@
         android:layout_weight="2"
         android:gravity="center"
         android:background="@drawable/textview_background"
-        android:text="C语言"
+        android:text="课程名"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         style="@style/TextSize" />
     <TextView
         android:id="@+id/score"
@@ -19,6 +21,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:background="@drawable/textview_background"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         style="@style/TextSize" />
     <TextView
         android:id="@+id/detail"
@@ -27,6 +31,8 @@
         android:layout_weight="1.5"
         android:gravity="center"
         android:background="@drawable/textview_background"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         style="@style/TextSize" />
     <TextView
         android:id="@+id/credits"
@@ -35,5 +41,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:background="@drawable/textview_background"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         style="@style/TextSize" />
 </LinearLayout>

@@ -1,8 +1,14 @@
 package com.example.gradeanddetails
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
+import android.view.View
 import android.webkit.CookieManager
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -36,13 +42,34 @@ class MainActivity : AppCompatActivity() {
             User.stuId("")
             User.stuPwd("")
             User.studentId("")
+            Toast.makeText(this,"已退出登录",Toast.LENGTH_SHORT).show()
             login()
         }
         binding.about.setOnClickListener {
             binding.mainFab.close(true)
             val dialog = AlertDialog.Builder(this)
                 .setTitle("关于")
-                .setMessage("作者:Yao\nGithub:")
+                .setMessage(
+                    SpannableStringBuilder().apply{
+                        append("作者:")
+                        append(SpannableString("Yao").apply{
+                            setSpan(StyleSpan(Typeface.BOLD),0, length,3)
+                        })
+                        append("\n\n项目仓库:\nhttps://github.com/YQ157/GradeAndDetails\n\n")
+                        append("账号密码仅在本地保存，仅访问教务系统，未访问任何第三方服务器\n\n")
+                        append(SpannableString("主界面下拉可以刷新").apply{
+                            setSpan(StyleSpan(Typeface.BOLD),0, length,3)
+                        })
+                    }
+                )
+                .setPositiveButton("OK"){ dialog,_->
+                    dialog.dismiss()
+                }
+                .create()
+            dialog.show()
+        }
+        binding.refresh.setOnRefreshListener {
+            getGrade()
         }
         login()
     }
@@ -54,6 +81,8 @@ class MainActivity : AppCompatActivity() {
             if(data!=null){
                 cookies=data.getStringExtra("cookies")!!
                 xIdToken=data.getStringExtra("X-Id-Token")!!
+                binding.cir.show()
+                binding.progress.text = "1/4 登录成功，开始读取成绩..."
                 getGrade()
             }
         }
@@ -65,7 +94,7 @@ class MainActivity : AppCompatActivity() {
     private var gradeList = listOf<Grade>()
     private val gradeTemp = mutableMapOf<String,Grade>()
     private fun getGrade(){
-
+        if(!::cookies.isInitialized)login()
         thread {
             val client = OkHttpClient.Builder()
                 .cookieJar(object : CookieJar {
@@ -78,7 +107,7 @@ class MainActivity : AppCompatActivity() {
                         if(::cookies.isInitialized)
                             cookies.split(";").map { Cookie.parse(url, it.trim())!! }
                         else
-                            cookies?.split(";")?.map { Cookie.parse(url, it.trim())!! } ?: emptyList()
+                            cookies.split(";").map { Cookie.parse(url, it.trim())!! }
 
                 })
                 .build()
@@ -108,6 +137,9 @@ class MainActivity : AppCompatActivity() {
 //                gradeList.forEach {
 //                    msg("${it.name},${it.score}")
 //                }
+                runOnUiThread {
+                    binding.progress.text = "2/4 成绩读取成功，开始读取平时分..."
+                }
                 val request2 = Request.Builder()
                     .url("https://jwxt.cumtb.edu.cn/eams-micro-server/api/v1/grade/student/grades")
                     .addHeader("Accept", "application/json")  // 必要的请求头：接受JSON格式的响应
@@ -126,8 +158,15 @@ class MainActivity : AppCompatActivity() {
                     }
                     gradeList = gradeTemp.values.toList().sortedByDescending { it.semester }
                     runOnUiThread {
+                        binding.progress.text = "3/4 平时分读取成功，开始绘制视图..."
                         binding.gradeList.adapter = GradeAdapter(gradeList)
                         binding.gradeList.layoutManager = LinearLayoutManager(this)
+                        binding.progress.text = "4/4 加载完成"
+                        binding.cir.hide()
+                        binding.loading.visibility = View.GONE
+                        binding.refresh.visibility = View.VISIBLE
+                        binding.refresh.isRefreshing = false
+                        Toast.makeText(this,"刷新成功",Toast.LENGTH_SHORT)
                     }
 //                    gradeList.forEach {
 //                        msg("${it.name},${it.score},${it.details}")

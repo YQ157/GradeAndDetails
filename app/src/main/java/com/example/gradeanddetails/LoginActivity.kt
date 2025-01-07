@@ -34,8 +34,9 @@ class LoginActivity : AppCompatActivity() {
             {
                 inLogin()
                 login(binding.stuId.text.toString(),binding.stuPwd.text.toString())
-                outLogin()
-                binding.pwd.error = "请检查学号密码是否正确！"
+                Handler(Looper.getMainLooper()).postDelayed({
+                    binding.pwd.error = "请检查学号密码是否正确！"
+                },1500)
             }
         }
         binding.stuId.setOnFocusChangeListener { _, hasFocus ->
@@ -114,6 +115,7 @@ class LoginActivity : AppCompatActivity() {
                             }
                         }
                         url?.startsWith("https://jwxt.cumtb.edu.cn/eams-student-grade-app/index.html",ignoreCase = true) == true ->{
+                            outLogin()
                             val cookies = CookieManager.getInstance().getCookie("https://jwxt.cumtb.edu.cn/student/home")
                             val intent = Intent()
                             intent.putExtra("cookies",cookies)

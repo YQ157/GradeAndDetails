@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/relogin_24"
             app:fab_size="mini"
-            app:fab_label="重新登陆"
+            app:fab_label="退出登陆"
             app:fab_colorNormal="@color/blueVariantLight"
             app:fab_colorPressed="@color/blueLight"
             />
@@ -40,14 +40,50 @@
             app:fab_colorPressed="@color/blueLight"
             />
     </com.github.clans.fab.FloatingActionMenu>
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <LinearLayout
+        android:id="@+id/loading"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/cir"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:indeterminate="true"
+            app:indicatorSize="60dp"
+            app:trackThickness="5dp"
+            app:indicatorColor="@color/blueLight"/>
+        <TextView
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="加载ing..."
+            android:textSize="12sp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:visibility="invisible"
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp">
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="30dp">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/grade_list"
+            android:layout_height="match_parent">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/grade_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"/>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
