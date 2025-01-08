@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.CookieManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -33,6 +34,36 @@ class LoginActivity : AppCompatActivity() {
             else
             {
                 inLogin()
+                if(binding.webView.url == "https://auth.cumtb.edu.cn/authserver/login?service=https%3A%2F%2Fjwxt.cumtb.edu.cn%2Fstudent%2Fsso%2Flogin")
+                {
+                    binding.webView.evaluateJavascript("""
+                        (function() {
+                            var element = document.querySelector("#cpatchaDiv");
+                            if (element) {
+                                // 检查元素是否可见
+                                return element.style.display;
+                            } else {
+                                return false;
+                            }
+                        })();
+                    """) { result ->
+                        msg(result)
+                        if (result == "\"\"") {
+                            outLogin()
+                            binding.id.visibility = View.GONE
+                            binding.pwd.visibility = View.GONE
+                            binding.logo.visibility = View.GONE
+                            binding.login.visibility = View.GONE
+                            binding.webView.apply{
+                                visibility = View.VISIBLE
+                                val params = layoutParams
+                                params.width = ViewGroup.LayoutParams.MATCH_PARENT
+                                params.height = ViewGroup.LayoutParams.MATCH_PARENT
+                                layoutParams = params
+                            }
+                        }
+                    }
+                }
                 login(binding.stuId.text.toString(),binding.stuPwd.text.toString())
             }
         }
@@ -71,11 +102,16 @@ class LoginActivity : AppCompatActivity() {
         binding.circular.show()
     }
     private fun outLogin(){
-        binding.login.visibility = View.VISIBLE
+        if(binding.logo.visibility == View.VISIBLE)binding.login.visibility = View.VISIBLE
         binding.circular.visibility = View.GONE
         binding.circular.hide()
     }
     private fun autoLogin() {
+        if(User.stuPwd().isBlank()){
+            val cookieManager = CookieManager.getInstance()
+            cookieManager.removeAllCookies(null)
+            cookieManager.flush()
+        }
         if(User.stuId().isNotBlank()){
             binding.stuId.setText(User.stuId())
             if(User.stuPwd().isNotBlank()){
@@ -117,8 +153,10 @@ class LoginActivity : AppCompatActivity() {
                         }
                         url == "https://jwxt.cumtb.edu.cn/student/home"->{
                             msg("登陆成功")
-                            User.stuId(binding.stuId.text.toString())
-                            User.stuPwd(binding.stuPwd.text.toString())
+                            if(binding.logo.visibility == View.VISIBLE){
+                                User.stuId(binding.stuId.text.toString())
+                                User.stuPwd(binding.stuPwd.text.toString())
+                            }
                             msg("保存学号和密码在本地")
                             loadUrl("https://jwxt.cumtb.edu.cn/student/for-std/grade/sheet")
                             msg("加载成绩页面获取studentId")
@@ -189,5 +227,10 @@ class LoginActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.webView.destroy()
     }
 }
