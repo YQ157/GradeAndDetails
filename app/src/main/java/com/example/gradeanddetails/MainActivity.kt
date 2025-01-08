@@ -21,7 +21,6 @@ import okhttp3.CookieJar
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.concurrent.thread
 
@@ -39,10 +38,11 @@ class MainActivity : AppCompatActivity() {
         }
         binding.relogin.setOnClickListener {
             binding.mainFab.close(true)
-            User.stuId("")
             User.stuPwd("")
             User.studentId("")
             Toast.makeText(this,"已退出登录",Toast.LENGTH_SHORT).show()
+            binding.scroll.visibility = View.GONE
+            binding.loading.visibility = View.VISIBLE
             login()
         }
         binding.about.setOnClickListener {
@@ -79,12 +79,21 @@ class MainActivity : AppCompatActivity() {
         if(it.resultCode==RESULT_OK){
             val data:Intent?=it.data
             if(data!=null){
+                while(data.getStringExtra("cookies") == null || data.getStringExtra("X-Id-Token") == null){
+                    Toast.makeText(this,"请重新登录",Toast.LENGTH_SHORT).show()
+                    User.studentId("")
+                    login()
+                }
                 cookies=data.getStringExtra("cookies")!!
                 xIdToken=data.getStringExtra("X-Id-Token")!!
                 binding.cir.show()
                 binding.progress.text = "1/4 登录成功，开始读取成绩..."
                 getGrade()
             }
+        } else if(it.resultCode==RESULT_CANCELED)
+        {
+            Toast.makeText(this,"取消登录",Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
     private fun login(){
@@ -164,9 +173,9 @@ class MainActivity : AppCompatActivity() {
                         binding.progress.text = "4/4 加载完成"
                         binding.cir.hide()
                         binding.loading.visibility = View.GONE
-                        binding.refresh.visibility = View.VISIBLE
+                        binding.scroll.visibility = View.VISIBLE
                         binding.refresh.isRefreshing = false
-                        Toast.makeText(this,"刷新成功",Toast.LENGTH_SHORT)
+                        Toast.makeText(this,"刷新成功",Toast.LENGTH_SHORT).show()
                     }
 //                    gradeList.forEach {
 //                        msg("${it.name},${it.score},${it.details}")
@@ -175,4 +184,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 }

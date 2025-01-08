@@ -7,17 +7,19 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_hy"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_hy_round"
         android:networkSecurityConfig="@xml/network"
         android:supportsRtl="true"
         android:theme="@style/Theme.GradeAndDetails"
         tools:targetApi="31">
         <activity
+            android:launchMode="singleInstance"
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
+            android:launchMode="singleInstance"
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
