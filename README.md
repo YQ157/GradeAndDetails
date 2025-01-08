@@ -1,3 +1,6 @@
+[下载链接](https://wwxe.lanzoub.com/iI01C2kc4nwj)
+
+![下载二维码](https://s1.imagehub.cc/images/2025/01/08/138e227f697b638cc855602215a7c4bc.png)
 # 项目原理
 1. 教务系统获取成绩是构造一个 http 请求，这个请求需要的关键参数是 cookie 值`__managerid__`
 2. 查询平时分，是`https://jwxt.cumtb.edu.cn/eams-student-grade-app/index.html`这个网页构造的请求的响应中，附带了平时成绩信息(疑似不小心)，这个请求的关键参数是`X-Id-Token`
